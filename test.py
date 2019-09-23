@@ -101,9 +101,9 @@ def on_draw(dt):
     glClear(GL_COLOR_BUFFER_BIT)
     glColor3ub(r, g, b)
     glBegin(GL_LINE_STRIP)
-    for t in range(1000):
-        data = bezier(A, B, C, D, t/1000)
-        # print(data)
+    for t in range(10):
+        data = bezier(A, B, C, D, t/10)
+        print(data)
         if data[0] > 1 or data[0] < -1 or data[1] > 1 or data[1] < -1:
             print("DUZIN BOBIN") 
         glVertex2f(data[0], data[1])

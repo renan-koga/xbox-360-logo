@@ -89,7 +89,7 @@ def draw():
 
         points.append((x, y))
 
-    r, g, b = 194, 194, 194
+    r, g, b = 181, 181, 181
     glColor3ub(r, g, b)
     glBegin(GL_TRIANGLE_FAN)
 
@@ -101,7 +101,7 @@ def draw():
 
     ##############################  MIDDLE X ##############################
 
-    r, g, b = 132, 167, 73
+    r, g, b = 86, 115, 35
     glColor3ub(r, g, b)
     
 
@@ -1008,7 +1008,7 @@ def draw():
 
     ############################## 3 ##############################
 
-    r, g, b = 194, 194, 194
+    r, g, b = 161, 160, 165
     glColor3ub(r, g, b)
     glBegin(GL_LINE_LOOP)
 
@@ -1126,7 +1126,7 @@ def draw():
     final.append(point2)
     final.append(point3)
 
-    r, g, b = 194, 194, 194
+    r, g, b = 161, 160, 165
     glColor3ub(r, g, b)
     glBegin(GL_TRIANGLE_STRIP)
 
@@ -1140,7 +1140,7 @@ def draw():
     glEnd()
 
 
-    r, g, b = 194, 194, 194
+    r, g, b = 161, 160, 165
     glColor3ub(r, g, b)
     glBegin(GL_LINE_LOOP)
 
@@ -1254,7 +1254,7 @@ def draw():
     final.append(point2)
     final.append(point3)
 
-    r, g, b = 194, 194, 194
+    r, g, b = 161, 160, 165
     glColor3ub(r, g, b)
     glBegin(GL_TRIANGLE_STRIP)
 
@@ -1270,7 +1270,7 @@ def draw():
 
     ############################## 6 ##############################
 
-    r, g, b = 194, 194, 194
+    r, g, b = 161, 160, 165
     glColor3ub(r, g, b)
     glBegin(GL_LINE_LOOP)
 
@@ -1364,7 +1364,7 @@ def draw():
         final.append(point3)
 
 
-    r, g, b = 194, 194, 194
+    r, g, b = 161, 160, 165
     glColor3ub(r, g, b)
     glBegin(GL_TRIANGLE_STRIP)
 
@@ -1373,7 +1373,7 @@ def draw():
 
     glEnd()
 
-    r, g, b = 194, 194, 194
+    r, g, b = 161, 160, 165
     glColor3ub(r, g, b)
     glBegin(GL_LINE_LOOP)
 
@@ -1500,7 +1500,7 @@ def draw():
         final.append(point3)
 
 
-    r, g, b = 194, 194, 194
+    r, g, b = 161, 160, 165
     glColor3ub(r, g, b)
     glBegin(GL_TRIANGLE_STRIP)
 
@@ -1512,7 +1512,7 @@ def draw():
 
     ############################## 0 ##############################
 
-    r, g, b = 194, 194, 194
+    r, g, b = 161, 160, 165
     glColor3ub(r, g, b)
     glBegin(GL_LINE_LOOP)
 
@@ -1563,7 +1563,7 @@ def draw():
 
     glEnd()
 
-    r, g, b = 194, 194, 194
+    r, g, b = 161, 160, 165
     glColor3ub(r, g, b)
     glBegin(GL_LINE_LOOP)
 
@@ -1637,7 +1637,7 @@ def draw():
     final.append(point2)
     final.append(point3)
 
-    r, g, b = 194, 194, 194
+    r, g, b = 161, 160, 165
     glColor3ub(r, g, b)
     glBegin(GL_TRIANGLE_STRIP)
 

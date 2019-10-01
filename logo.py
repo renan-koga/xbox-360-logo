@@ -73,8 +73,31 @@ def draw():
     glTranslatef(-pivot_x, -pivot_y, 0)
     
     #glBegin(GL_TRIANGLE_FAN)
-    polygon.draw(GL_TRIANGLE_FAN)
+    # polygon.draw(GL_TRIANGLE_FAN)
     #glEnd()
+
+    ##############################  CIRCLE ##############################
+
+    cx = 798
+    cy = 335
+    radius = 285
+    points = []
+
+    for angle in np.arange(0, 360, 0.1):
+        x = cx + radius*math.cos(math.radians(angle))
+        y = cy + radius*math.sin(math.radians(angle))
+
+        points.append((x, y))
+
+    r, g, b = 194, 194, 194
+    glColor3ub(r, g, b)
+    glBegin(GL_TRIANGLE_FAN)
+
+    for point in points:
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
 
     ##############################  FIRST X ##############################
     r, g, b = 151, 200, 62

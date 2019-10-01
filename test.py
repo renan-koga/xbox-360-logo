@@ -34,7 +34,7 @@ def getEquation(p1, p2):
 def circle():
     points = []
 
-    cx = 800
+    cx = 798
     cy = 335
     radius = 285
     
@@ -44,10 +44,7 @@ def circle():
         x = cx + radius*math.cos(math.radians(angle))
         y = cy + radius*math.sin(math.radians(angle))
 
-        points.append(previous)
-        points.append((cx, cy))
         points.append((x, y))
-        # points.append((previous, (cx, cy) ,(x, y)))
 
     return points
 
@@ -129,7 +126,7 @@ def draw_circle():
     r, g, b = 194, 194, 194
     # glPolygonMode(GL_BACK, GL_FILL)
     glColor3ub(r, g, b)
-    glBegin(GL_TRIANGLE_FAN)
+    glBegin(GL_TRIANGLE_STRIP)
 
     points = circle()
 
@@ -143,6 +140,7 @@ def draw_numbers():
     three()
     six()
     zero()
+
 
 def three():
     r, g, b = 194, 194, 194
@@ -1314,7 +1312,7 @@ def draw_O():
 
 def display():
     glClear(GL_COLOR_BUFFER_BIT)
-    # draw_circle()
+    draw_circle()
     draw_numbers()
     draw_B()
     draw_O()

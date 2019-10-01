@@ -99,6 +99,345 @@ def draw():
     glEnd()
 
 
+    ##############################  MIDDLE X ##############################
+
+    r, g, b = 132, 167, 73
+    glColor3ub(r, g, b)
+    
+
+    glBegin(GL_LINE_STRIP)
+
+    points = [
+        (799.428, 900-617.615),
+        (780.12, 900-593.52),
+        (759.37, 900-570.47),
+        (748.88, 900-558.29),
+        (720.61, 900-524.82),
+        (706.09, 900-508.70),
+        (698.61, 900-499.75),
+        (693.28, 900-492.89),
+        (678.51, 900-473.04),
+        (631.63, 900-404.09),
+        (606.75, 900-356.50),
+        (605.41, 900-353.94),
+        (605.01, 900-354.13)
+    ]
+
+    outside = []
+    data = bezier_curve(np.array(points))
+    for point in data:
+        outside.append(point)
+        glVertex2f(point[0], point[1])
+
+
+    points = [
+        (608.47, 900-381.61),
+        (620.95, 900-445.35),
+        (639.30, 900-497.65),
+        (677.07, 900-573.13),
+        (686.12, 900-588.78),
+        (711.91, 900-627.79),
+        (729.65, 900-650.79),
+        (740.95, 900-663.42),
+        (743.25, 900-666.36),
+        (745.88, 900-669.48),
+        (747.00, 900-670.81),
+        (747.00, 900-672.99)
+    ]
+
+    inside = []
+    data = bezier_curve(np.array(points))
+    for point in data:
+        inside.append(point)
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    ########## Perninha inferior esquerda ##########
+
+    outside.reverse()
+    final = []
+
+    for i in range(len(inside)-1):
+        point1 = outside[i]
+        point2 = inside[i]
+        point3 = inside[i+1]
+
+        final.append(point1)
+        final.append(point2)
+        final.append(point3)
+
+        point1 = outside[i]
+        point2 = outside[i+1]
+        point3 = inside[i+1]
+
+        final.append(point1)
+        final.append(point2)
+        final.append(point3)
+
+    p1 = inside[-1]
+    p2 = outside[-1]
+
+    glBegin(GL_TRIANGLE_STRIP)
+
+    for point in final:
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    glBegin(GL_LINE_STRIP)
+
+    points = [
+        (747.00, 900-670.81),
+        (747.00, 900-672.99),
+        (737.12, 900-682.54),
+        (713.25, 900-706.28),
+        (676.04, 900-741.18),
+        (646.44, 900-766.38),
+        (621.88, 900-782.53)
+    ]
+
+    outside = []
+    data = bezier_curve(np.array(points))
+    for point in data:
+        outside.append(point)
+        glVertex2f(point[0], point[1])
+
+
+    points = [
+        (619.23, 900-784.56),
+        (620.24, 900-785.57),
+        (647.91, 900-781.75),
+        (686.77, 900-773.80),
+        (707.30, 900-767.35),
+        (751.03, 900-748.48),
+        (764.02, 900-741.39),
+        (799.428, 900-717.917),
+    ]
+
+    inside = []
+    data = bezier_curve(np.array(points))
+    for point in data:
+        inside.append(point)
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    ########## Perninha superior esquerda ##########
+
+    outside.reverse()
+    final = []
+
+    for i in range(len(inside)-1):
+        point1 = outside[i]
+        point2 = inside[i]
+        point3 = inside[i+1]
+
+        final.append(point1)
+        final.append(point2)
+        final.append(point3)
+
+        point1 = outside[i]
+        point2 = outside[i+1]
+        point3 = inside[i+1]
+
+        final.append(point1)
+        final.append(point2)
+        final.append(point3)
+
+    p3 = outside[-1]
+    p4 = inside[-1]
+
+    glBegin(GL_TRIANGLE_STRIP)
+
+    for point in final:
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    glBegin(GL_LINE_STRIP)
+
+    points = [
+        (799.428, 900-717.917),
+        (851.66, 900-755.07),
+        (901.25, 900-775.13),
+        (978.35, 900-786.08),
+        (973.68, 900-785.67),
+        (975.25, 900-784.07)
+    ]
+
+    outside = []
+    data = bezier_curve(np.array(points))
+    for point in data:
+        outside.append(point)
+        glVertex2f(point[0], point[1])
+
+    
+    points = [
+        (970.12, 900-780.27),
+        (953.95, 900-767.59),
+        (910.77, 900-728.68),
+        (882.40, 900-700.61),
+        (871.89, 900-690.42),
+        (856.72, 900-675.95),
+        (852.00, 900-672.13),
+        (852.00, 900-670.21)
+    ]
+
+    inside = []
+    data = bezier_curve(np.array(points))
+    for point in data:
+        inside.append(point)
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    ########## Perninha superior direita ##########
+
+    outside.reverse()
+    final = []
+
+    for i in range(len(inside)-1):
+        point1 = outside[i]
+        point2 = inside[i]
+        point3 = inside[i+1]
+
+        final.append(point1)
+        final.append(point2)
+        final.append(point3)
+
+        point1 = outside[i]
+        point2 = outside[i+1]
+        point3 = inside[i+1]
+
+        final.append(point1)
+        final.append(point2)
+        final.append(point3)
+
+    p5 = outside[-1]
+    p6 = inside[-1]
+
+    glBegin(GL_TRIANGLE_STRIP)
+
+    for point in final:
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    glColor3ub(r, g, b)
+    glBegin(GL_LINE_STRIP)
+
+    points = [
+        (852.00, 900-670.677),
+        (853.122, 900-669.000),
+    ]
+
+    outside = []
+    data = bezier_curve(np.array(points))
+    for point in data:
+        outside.append(point)
+        glVertex2f(point[0], point[1])
+
+
+    points = [
+        (853.122, 900-669.000),
+        (877.14, 900-641.43),
+        (898.33, 900-609.92),
+        (942.06, 900-533.82),
+        (968.93, 900-464.39),
+        (984.46, 900-387.95),
+        (988.82, 900-354.93),
+        (986.84, 900-355.09),
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        outside.append(point)
+        glVertex2f(point[0], point[1])
+
+    
+    points = [
+        (983.35, 900-361.69),
+        (972.79, 900-383.72),
+        (957.94, 900-408.89),
+        (933.15, 900-451.56),
+        (910.23, 900-484.42),
+        (878.94, 900-523.13),
+        (864.77, 900-538.74),
+        (856.91, 900-548.44),
+        (821.07, 900-590.53),
+        (813.89, 900-598.48),
+        (799.428, 900-617.615)
+    ]
+
+    inside = []
+    data = bezier_curve(np.array(points))
+    for point in data:
+        inside.append(point)
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    ########## Perninha inferior direita ##########
+
+    outside.reverse()
+    final = []
+
+    for i in range(len(inside)-1):
+        point1 = outside[i]
+        point2 = inside[i]
+        point3 = inside[i+1]
+
+        final.append(point1)
+        final.append(point2)
+        final.append(point3)
+
+        point1 = outside[i]
+        point2 = outside[i+1]
+        point3 = inside[i+1]
+
+        final.append(point1)
+        final.append(point2)
+        final.append(point3)
+
+    p7 = outside[-1]
+    p8 = inside[-1]
+
+    glBegin(GL_TRIANGLE_STRIP)
+
+    for point in final:
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    points = [
+        p1,
+        p2,
+        p3,
+        p4,
+        p5,
+        p6,
+        (855.98, 900-665.25),
+        p8
+    ]
+
+    glColor3ub(r, g, b)
+    glBegin(GL_POLYGON)
+
+    for point in points:
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
     ##############################  FIRST X ##############################
     r, g, b = 151, 200, 62
     glBegin(GL_POLYGON)

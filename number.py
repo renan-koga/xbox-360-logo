@@ -1,14 +1,40 @@
 import sys
 import math
 import struct
+import tripy
 import triangle
 import numpy as np
+
+# from shapely.geometry import MultiPoint
+# from shapely.ops import triangulate
 
 from OpenGL.GLUT import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from math import *
 from glumpy import app, gl, gloo
+
+
+
+def circle():
+    points = []
+
+    cx = 800
+    cy = 335
+    radius = 285
+    
+    previous = (cx+radius, cy)
+
+    for angle in np.arange(0, 360, 0.1):
+        x = cx + radius*math.cos(math.radians(angle))
+        y = cy + radius*math.sin(math.radians(angle))
+
+        points.append(previous)
+        points.append((cx, cy))
+        points.append((x, y))
+        # points.append((previous, (cx, cy) ,(x, y)))
+
+    return points
 
 
 def bezier_curve(points):
@@ -19,7 +45,7 @@ def bezier_curve(points):
         # print("> " + str(u))
         x = get_function(points, u/100, n-1, 0, 'x')
         y = get_function(points, u/100, n-1, 0, 'y')
-        print("> ", (x, y))
+        # print("> ", (x, y))
         data.append((x, y))
 
     return np.reshape(data, (len(data), 2))
@@ -43,18 +69,33 @@ def binomial(n, i):
     return math.factorial(n)/(math.factorial(i)*math.factorial(n-i))
 
 
-def triangulate(vertices):
-    n = len(vertices)
-    segments = (np.repeat(np.arange(n+1),2)[1:-1]) % n
-    T = triangle.triangulate({'vertices': vertices, 'segments': segments}, "p")
-    return T["vertices"], T["triangles"]
+# def triangulate(vertices):
+#     n = len(vertices)
+#     segments = (np.repeat(np.arange(n+1),2)[1:-1]) % n
+#     print("> ", np.array(segments))
+#     T = triangle.triangulate({'vertices': vertices}, "")
+#     return T['triangles']
+
+def triangulate(P):
+    n = len(P)
+    S = np.repeat(np.arange(n+1),2)[1:-1]
+    S[-2:] = n-1,0
+    T = triangle.triangulate({'vertices': P[:,:2], 'segments': S}, "p")
+    return  T["triangles"].ravel()
+
+vertex2 = """
+attribute vec2 position;
+void main(void) {
+    gl_Position = vec4(0.85 * position, 0.0, 1.0);
+}
+"""
 
 vertex = """
 attribute vec2 position;
 varying vec2 v_position;
 void main() {
     v_position = position;
-    gl_Position = vec4(position.xy, 0.0, 1.6);
+    gl_Position = vec4(position.xy, 0.0, 1.55);
 }
 """
 
@@ -70,6 +111,10 @@ void main() {
 """
 
 
+# triangulo = [(30, 30), (40, 40), (50, 50)]
+# meuTri = gloo.Program(vertex2, fragment, count=3)
+# meuTri["position"] = triangulo
+
 P = np.zeros((1+100, 2), dtype=np.float32)
 T = np.linspace(0, 2*np.pi, len(P)-1, endpoint=True)
 P[1:, 0], P[1:, 1] = 0.5*np.cos(T) - 0.1, 0.95*np.sin(T) + 0.5
@@ -84,6 +129,173 @@ def init():
     glClearColor(1.0, 1.0, 1.0, 0.0)
     glShadeModel(GL_SMOOTH)
 
+
+def draw_circle():
+    r, g, b = 151, 200, 62
+    # glPolygonMode(GL_BACK, GL_FILL)
+    glColor3ub(r, g, b)
+    glBegin(GL_TRIANGLE_FAN)
+
+    points = circle()
+
+    for point in points:
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+def draw_middle_x():
+    r, g, b = 151, 200, 62
+    # glPolygonMode(GL_BACK, GL_FILL)
+    glColor3ub(r, g, b)
+    glBegin(GL_LINE_LOOP)
+
+    points = [
+        (799.428, 900-617.615),
+        (780.12, 900-593.52),
+        (759.37, 900-570.47),
+        (748.88, 900-558.29),
+        (720.61, 900-524.82),
+        (706.09, 900-508.70),
+        (698.61, 900-499.75),
+        (693.28, 900-492.89),
+        (678.51, 900-473.04),
+        (631.63, 900-404.09),
+        (606.75, 900-356.50),
+        (605.41, 900-353.94),
+        (605.01, 900-354.13)
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        glVertex2f(point[0], point[1])
+
+
+    points = [
+        (608.47, 900-381.61),
+        (620.95, 900-445.35),
+        (639.30, 900-497.65),
+        (677.07, 900-573.13),
+        (686.12, 900-588.78),
+        (711.91, 900-627.79),
+        (729.65, 900-650.79),
+        (740.95, 900-663.42),
+        (743.25, 900-666.36),
+        (745.88, 900-669.48),
+        (747.00, 900-670.81),
+        (747.00, 900-672.99)
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        glVertex2f(point[0], point[1])
+
+
+    points = [
+        (747.00, 900-670.81),
+        (747.00, 900-672.99),
+        (737.12, 900-682.54),
+        (713.25, 900-706.28),
+        (676.04, 900-741.18),
+        (646.44, 900-766.38),
+        (621.88, 900-782.53)
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        glVertex2f(point[0], point[1])
+
+
+    points = [
+        (619.23, 900-784.56),
+        (620.24, 900-785.57),
+        (647.91, 900-781.75),
+        (686.77, 900-773.80),
+        (707.30, 900-767.35),
+        (751.03, 900-748.48),
+        (764.02, 900-741.39),
+        (799.428, 900-717.917),
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        glVertex2f(point[0], point[1])
+
+
+    points = [
+        (799.428, 900-717.917),
+        (851.66, 900-755.07),
+        (901.25, 900-775.13),
+        (978.35, 900-786.08),
+        (973.68, 900-785.67),
+        (975.25, 900-784.07)
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        glVertex2f(point[0], point[1])
+
+    
+    points = [
+        (970.12, 900-780.27),
+        (953.95, 900-767.59),
+        (910.77, 900-728.68),
+        (882.40, 900-700.61),
+        (871.89, 900-690.42),
+        (856.72, 900-675.95),
+        (852.00, 900-672.13),
+        (852.00, 900-670.21)
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        glVertex2f(point[0], point[1])
+
+
+    points = [
+        (852.00, 900-670.677),
+        (853.122, 900-669.000),
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        glVertex2f(point[0], point[1])
+
+
+    points = [
+        (853.122, 900-669.000),
+        (877.14, 900-641.43),
+        (898.33, 900-609.92),
+        (942.06, 900-533.82),
+        (968.93, 900-464.39),
+        (984.46, 900-387.95),
+        (988.82, 900-354.93),
+        (986.84, 900-355.09),
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        glVertex2f(point[0], point[1])
+
+    
+    points = [
+        (983.35, 900-361.69),
+        (972.79, 900-383.72),
+        (957.94, 900-408.89),
+        (933.15, 900-451.56),
+        (910.23, 900-484.42),
+        (878.94, 900-523.13),
+        (864.77, 900-538.74),
+        (856.91, 900-548.44),
+        (821.07, 900-590.53),
+        (813.89, 900-598.48),
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        glVertex2f(point[0], point[1])
+
+
+    glEnd()
 
 def draw_numbers():
     r, g, b = 151, 200, 62
@@ -124,12 +336,12 @@ def draw_numbers():
 
     data = bezier_curve(np.array(points))
     for point in data:
-        glVertex2f(point[0], point[1])
+        # glVertex2f(point[0], point[1])
         vertexes.append(point)
 
 
     points = [
-        (1006.500, 900-158.655),
+        # (1006.500, 900-158.655),
         (1016.20, 900-156.16),
         (1034.74, 900-142.17),
         (1039.20, 900-133.11),
@@ -155,23 +367,23 @@ def draw_numbers():
 
     data = bezier_curve(np.array(points))
     for point in data:
-        glVertex2f(point[0], point[1])
+        # glVertex2f(point[0], point[1])
         vertexes.append(point)
 
 
     points = [
-        (926.75, 900-120.00),
+        # (926.75, 900-120.00),
         (935.376, 900-120.00),
         (944.003, 900-120.00)
     ]
 
     for point in points:
-        glVertex2f(point[0], point[1])
+        # glVertex2f(point[0], point[1])
         vertexes.append(point)
 
 
     points = [
-        (944.003, 900-120.000),
+        # (944.003, 900-120.000),
         (950.51, 900-106.23),
         (957.73, 900-98,93),
         (968.95, 900-93.76),
@@ -193,23 +405,23 @@ def draw_numbers():
 
     data = bezier_curve(np.array(points))
     for point in data:
-        glVertex2f(point[0], point[1])
+        # glVertex2f(point[0], point[1])
         vertexes.append(point)
 
 
     points = [
-        (963.00, 900-150.243),
+        # (963.00, 900-150.243),
         (963.00, 900-157.469),
         (963.00, 900-164.694)
     ]
 
     for point in points:
-        glVertex2f(point[0], point[1])
+        # glVertex2f(point[0], point[1])
         vertexes.append(point)
 
 
     points = [
-        (963.000, 900-164.694),
+        # (963.000, 900-164.694),
         (985.43, 900-165.64),
         (993.67, 900-166.56),
         (1001.11, 900-168.82),
@@ -231,7 +443,7 @@ def draw_numbers():
 
     data = bezier_curve(np.array(points))
     for point in data:
-        glVertex2f(point[0], point[1])
+        # glVertex2f(point[0], point[1])
         vertexes.append(point)
 
 
@@ -239,24 +451,53 @@ def draw_numbers():
         # (949.601, 900-193.00),
         (935.96, 900-193.00),
         (932.00, 900-193.27),
-        (932.00, 900-193.93)
+        # (932.00, 900-193.93)
     ]
 
     data = bezier_curve(np.array(points))
     for point in data:
-        glVertex2f(point[0], point[1])
+        # glVertex2f(point[0], point[1])
         vertexes.append(point)
 
 
     glEnd()
 
 
-    V, I = triangulate(vertexes)
-    
-    r, g, b = 151, 200, 62
+    # points = MultiPoint(vertexes)
+    # triangles = triangulate(points, edges=True)
+
+    # print(np.array(vertexes))
+    V = triangulate(np.array(vertexes))
+
+    print(V)
+
+
+    # arr = np.asarray(triangles)
+    # for triangle in triangles:
+    #     arr = np.append(arr, triangle.wkt)
+        # print("> ", np.append(arr, triangle.wkt))
+
+    # triangles = tripy.earclip(vertexes)
+
+    # print(">>> ", triangles)
+
+    r, g, b = 0,0,0
     glColor3ub(r, g, b)
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
-    polygon.draw(GL_TRIANGLES, I)
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
+    # polygon.draw(GL_TRIANGLES, V)
+    # glPolygonMode(GL_BACK, GL_FILL)
+    glBegin(GL_TRIANGLE_STRIP)
+
+    for point in V:
+        print("> ", point)
+        # glVertex2d(point[0], point[1])
+
+    glEnd()
+    
+    # r, g, b = 151, 200, 62
+    # glColor3ub(r, g, b)
+    # glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+    # polygon.draw(GL_TRIANGLES, I)
 
 
 def bezier(A, B, C, D, t):
@@ -267,8 +508,11 @@ def bezier(A, B, C, D, t):
 
 def display():
     glClear(GL_COLOR_BUFFER_BIT)
-    draw_numbers()
-    polygon.draw(GL_TRIANGLE_FAN)
+    # polygon.draw(GL_TRIANGLE_FAN)
+    # draw_circle()
+    draw_numbers()  
+    # draw_middle_x()
+    # meuTri.draw(GL_TRIANGLE_STRIP)
     glFlush()
 
 

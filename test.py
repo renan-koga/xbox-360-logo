@@ -143,7 +143,6 @@ def draw_numbers():
     three()
     six()
     zero()
-    draw_B()
 
 def three():
     r, g, b = 194, 194, 194
@@ -789,19 +788,6 @@ def draw_B():
 
     glBegin(GL_POLYGON)
 
-    # outside = [
-    #     (418.500, 900-231.500),
-    #     (418.235, 900-201.285),
-    #     (417.971, 900-171.070),
-    # ]
-
-    # inside = [
-    #     (438.000, 900-231.412),
-    #     (438.000, 900-214,164),
-    #     (438.000, 900-192.499),
-    #     (438.000, 900-170.834),
-    # ]
-
     points = [
         (418.500, 900-231.500),
         (438.000, 900-231.412),
@@ -835,7 +821,8 @@ def draw_B():
     glEnd()
 
 
-    # r, g, b = 194, 194, 194
+    ####################### B superior externo ############################
+
     glColor3ub(r, g, b)
     glBegin(GL_LINE_STRIP)
 
@@ -869,9 +856,13 @@ def draw_B():
         outside.append(point)
         glVertex2f(point[0], point[1])
 
+
     outside.append((438.000, 900-162.250))
 
     glEnd()
+
+
+    ####################### B superior interno ############################
 
 
     glColor3ub(r, g, b)
@@ -933,12 +924,17 @@ def draw_B():
     glEnd()
 
 
+    ####################### B inferior externo ############################
+
     glColor3ub(r, g, b)
     glBegin(GL_LINE_STRIP)
 
     outside = []
 
     points = [
+        # (438.500, 900-166.686),
+        # (451.000, 900-166.686),
+        # (478.030, 900-166.686),
         (499.755, 900-166.686),
         (509.35, 900-163.21),
         (512.22, 900-161.92),
@@ -973,6 +969,8 @@ def draw_B():
 
     glEnd()
 
+
+    ####################### B inferior interno ############################
 
     glColor3ub(r, g, b)
     glBegin(GL_LINE_STRIP)
@@ -1035,7 +1033,7 @@ def draw_B():
         final.append(point3)
 
     point1 = inside[-1]
-    point2 = (438.000, 900-162.250)
+    point2 = (438.000, 900-166.686)
     point3 = outside[-1]
 
     final.append(point1)
@@ -1051,28 +1049,275 @@ def draw_B():
     glEnd()
 
 
-def bezier(A, B, C, D, t):
-    x = (1-t)**3*A[0] + 3*(1-t)**2*t*B[0] + 3*(1-t)*t**2*C[0] + t**3*D[0]
-    y = (1-t)**3*A[1] + 3*(1-t)**2*t*B[1] + 3*(1-t)*t**2*C[1] + t**3*D[1]
+    ####################### B quadrado inferior esquerdo ############################
 
-    return x, y
+    glBegin(GL_POLYGON)
+
+    points = [
+        (418.000, 900-98.265),
+        (438.452, 900-98.265),
+        (438.438, 900-80.022),
+        (418.000, 900-80.000),
+    ]
+
+    for point in points:
+        glVertex2f(point[0], point[1])
+
+    glEnd()
 
 
-def getPoints(equation, p1, p2, axis='x'):
-    precision = 0.001
-    points = []
+    glColor3ub(r, g, b)
+    glBegin(GL_TRIANGLE_STRIP)
 
-    if axis == 'x':
-        times = (p2[0] - p1[0])/precision
-        for i in range(times):
-            y = equation.fx(p1[0] + i*precision)
-            points.append()
+    glVertex2f(438.452, 900-98.265)
+    glVertex2f(outside[1][0], outside[1][1])
+    glVertex2f(438.438, 900-80.022)
+
+    glEnd()
+
+
+    ####################### B reta inferior externa ############################
+
+    glColor3ub(r, g, b)
+    glBegin(GL_LINE_STRIP)
+
+    outside = []
+
+    points = [
+        (418.000, 900-98.265),
+        (418.000, 900-117.000),
+        (418.000, 900-154.000),
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        outside.append(point)
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    ####################### B reta inferior interna ############################
+
+    glColor3ub(r, g, b)
+    glBegin(GL_LINE_STRIP)
+
+    inside = []
+
+    points = [
+        (438.78, 900-97.42),
+        (438.19, 900-98.96),
+        (438.09, 900-111.67),
+        (438.233, 900-126.515),
+        (438.500, 900-153.500),
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        inside.append(point)
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    final = []
+
+    for i in range(len(inside)-1):
+        point1 = outside[i]
+        point2 = inside[i]
+        point3 = inside[i+1]
+
+        final.append(point1)
+        final.append(point2)
+        final.append(point3)
+
+        point1 = outside[i]
+        point2 = outside[i+1]
+        point3 = inside[i+1]
+
+        final.append(point1)
+        final.append(point2)
+        final.append(point3)
+
+    glColor3ub(r, g, b)
+    glBegin(GL_TRIANGLE_STRIP)
+
+    for point in final:
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    glBegin(GL_POLYGON)
+
+    points = [
+        (392.910, 900-162.250),
+        (388.030, 900-154.000),
+        (403.015, 900-154.000),
+        (418.000, 900-154.000),
+        (438.500, 900-154.000),
+        (438.500, 900-162.250),
+    ]
+
+    for point in points:
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    glBegin(GL_POLYGON)
+
+    points = [
+        (417.971, 900-171.070),
+        (438.000, 900-170.834),
+        inside[-1],
+        outside[-1]
+    ]
+
+    for point in points:
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+    
+def draw_O():
+    ####################### O externo ############################
+
+    r, g, b = 151, 200, 62
+    glColor3ub(r, g, b)
+    glBegin(GL_LINE_LOOP)
+
+    outside = []
+
+    points = [
+        (616.73, 900-231.59),
+        (635.53, 900-230.37),
+        (646.40, 900-228.12),
+        (661.11, 900-221.62),
+        (667.86, 900-217.34),
+        (680.68, 900-206.78),
+        (686.51, 900-200.31),
+        (694.33, 900-187.02),
+        (697.23, 900-178.59),
+        (700.48, 900-160.04),
+        (700.53, 900-149.84),
+        (696.43, 900-130.03),
+        (691.84, 900-119.82),
+        (680.27, 900-103.47),
+        (673.83, 900-96.93),
+        (658.94, 900-86.09),
+        (650.40, 900-81.93),
+        (633.77, 900-77.63),
+        (613.00, 900-77.34),
+        (599.57, 900-80.68),
+        (584.77, 900-86.34),
+        (568.91, 900-97.64),
+        (562.59, 900-103.83),
+        (553.11, 900-117.65),
+        (549.71, 900-124.57),
+        (545.59, 900-139.27),
+        (544.67, 900-146.95),
+        (544.59, 900-171.13),
+        (546.36, 900-179.48),
+        (556.94, 900-198.47),
+        (563.62, 900-206.33),
+        (580.71, 900-220.75),
+        (591.61, 900-226.71),
+        (608.66, 900-231.14)
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        outside.append(point)
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    ####################### O interno ############################
+
+
+    glColor3ub(r, g, b)
+    glBegin(GL_LINE_LOOP)
+
+    inside = []
+    
+    points = [
+        (615.31, 900-213.10),
+        (633.91, 900-212.45),
+        (643.13, 900-209.69),
+        (661.86, 900-198.43),
+        (670.60, 900-188.43),
+        (678.17, 900-169.11),
+        (678.41, 900-167.30),
+        (678.48, 900-143.41),
+        (678.15, 900-140.54),
+        (672.96, 900-125.46),
+        (667.06, 900-117.07),
+        (653.51, 900-105.45),
+        (646.71, 900-101.46),
+        (631.70, 900-96.07),
+        (615.66, 900-95.40),
+        (600.02, 900-99.80),
+        (592.65, 900-103.95),
+        (580.64, 900-115.02),
+        (575.82, 900-121.64),
+        (567.35, 900-139.21),
+        (565.99, 900-145.39),
+        (566.05, 900-167.33),
+        (567.14, 900-172.40),
+        (575.42, 900-189.84),
+        (587.98, 900-202.45),
+        (605.96, 900-211.21)
+    ]
+
+    data = bezier_curve(np.array(points))
+    for point in data:
+        inside.append(point)
+        glVertex2f(point[0], point[1])
+
+    glEnd()
+
+
+    outside.append((616.73, 900-231.59))
+    outside.append((635.53, 900-230.37))
+    inside.append((615.31, 900-213.10))
+    inside.append((633.91, 900-212.45))
+
+    final = []
+
+    for i in range(len(inside)-1):
+        point1 = outside[i]
+        point2 = inside[i]
+        point3 = inside[i+1]
+
+        final.append(point1)
+        final.append(point2)
+        final.append(point3)
+
+        point1 = outside[i]
+        point2 = outside[i+1]
+        point3 = inside[i+1]
+
+        final.append(point1)
+        final.append(point2)
+        final.append(point3)
+
+    glColor3ub(r, g, b)
+    glBegin(GL_TRIANGLE_STRIP)
+
+    for point in final:
+        glVertex2f(point[0], point[1])
+
+    glEnd()
 
 
 def display():
     glClear(GL_COLOR_BUFFER_BIT)
     # draw_circle()
     draw_numbers()
+    draw_B()
+    draw_O()
     # draw_middle_x()
     # meuTri.draw(GL_TRIANGLE_STRIP)
     glFlush()

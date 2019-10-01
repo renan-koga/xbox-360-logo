@@ -54,7 +54,7 @@ def draw():
     global angle
     global zoom
 
-    pivot_x, pivot_y = 750.0, 750.0
+    pivot_x, pivot_y = 800.0, 450.0
     
     glPushMatrix()
 
